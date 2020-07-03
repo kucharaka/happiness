@@ -3,21 +3,21 @@ from random import random
 from numpy.linalg import inv
 
 def social(x):
-    return x * 0.1
+    return money(x)
 
 def time(x):
-    return -((x-0.5)**2) + 0.3
+    return -((x-0.5)**2) + 1
 
 def money(x):
     if x < 0.25:
-        return x
-    elif x < 0.5:
-        return 0.25
+        return x * 2
+    elif x < 0.7:
+        return 1
     else:
-        return 0.25 - x / 10
+        return 1 - x / 10
 
 def life(x):
-    return x * 0.35
+    return x
 
 x = ones((100000, 4))
 y = ones((100000, 1))
@@ -25,7 +25,7 @@ y = ones((100000, 1))
 for i in range(0, 100000):
     for j in range(0, 4):
         x[i][j] = random()
-    y[i][0] = social(x[i][0]) + time(x[i][1]) + money(x[i][2]) + life(x[i][3])
+    y[i][0] = 0.15 * social(x[i][0]) + 0.25 * time(x[i][1]) + 0.25 * money(x[i][2]) + 0.35 * life(x[i][3])
 
 weight = dot(dot(inv(dot(x.T, x)), x.T), y)
 print("Введите соц признание, свободное время, богатство, лич жизнь(все параметры от 0 до 1) ")
@@ -33,5 +33,5 @@ a = ones((4, 1))
 for i in range(4):
     a[i][0] = float(input())
 a = dot(weight.T, a)
-print("счастье = %s" % (a[0][0]))
-print(weight)
+print("вы счастливы на = %s" % (((a[0][0])/0.0137)))
+
